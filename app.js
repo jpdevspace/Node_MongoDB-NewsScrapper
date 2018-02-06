@@ -12,10 +12,11 @@ const PORT = process.env.PORT || 3000;
 app.use(express.static('public'));
 
 // Mongoose connection
-mongoose.connect('mongodb://localhost/mongoosebasicsDB');
+const MONGODB_URI = process.env.MONGODB_URI || "mongodb://localhost/lasNewsDB"; // If deployed, use the deployed database. Otherwise use the local mongoHeadlines database
 mongoose.Promise = global.Promise;
+mongoose.connect(MONGODB_URI, {  useMongoClient: true });
 const db = mongoose.connection;
-db.on('error', console.error.bind(console, 'MongoDB connection error:'));
+db.on('error', console.error.bind(console, 'MongoDB connection error:'));   // Check for errors on connection
 
 // Middleware: Body-Parser
 app.use(bodyParser.urlencoded({ extended: false }));
