@@ -1,0 +1,14 @@
+nav a,
+nav .btn {
+    font-size: 1.5em;
+}
+.main-bg {
+    width: 100%;
+    height: 20em;
+    background: url('../imgs/main-bg.jpg') center no-repeat;
+    background-size: cover;
+}
+.main-strip {
+    padding: 10px;
+    text-align: center;
+}
