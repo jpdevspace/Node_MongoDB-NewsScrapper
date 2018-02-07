@@ -1,7 +1,7 @@
 # Node_MongoDB-NewsScrapper
 A full stack web scraper app to get the latest news from Wired magazine, save articles for later reviewing and add comments to your saved articles.
 
-## See it live on: https://jpnewsscraper.herokuapp.com/save
+## See it live on: https://jpnewsscraper.herokuapp.com/
 
 ![alt text][screenshot]
 
