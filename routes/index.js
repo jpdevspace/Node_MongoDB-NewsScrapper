@@ -2,7 +2,8 @@ const express = require('express');
 const router = express.Router();
 const request = require('request'); // to easily make HTTP request
 const cheerio = require("cheerio"); // Scraping tool
-const Article = require('../models/Articles');
+const Articles = require('../models/Articles');
+const Comments = require('../models/Comments');
 
 // GET '/' Display main page
 router.get('/', (req, res) => {
@@ -11,6 +12,9 @@ router.get('/', (req, res) => {
 
 // GET '/scrape' Scrape news websites
 router.get('/scrape', (req, res) => { 
+    // Empty db
+    Articles.remove({saved: false}).exec();
+    
     const wiredURL = "https://www.wired.com/most-recent/";  // Making the request to get the HTML
 
     request(wiredURL, (err, response, html) => {    // Making request to get the HTML code
@@ -31,7 +35,9 @@ router.get('/scrape', (req, res) => {
             });
         });
 
-        Article.create(wiredResult)
+        
+
+        Articles.create(wiredResult)
             .then( dbArticle => {
                 res.render('scrape', {articles: dbArticle, title: "Check the results"});
             })
@@ -40,12 +46,11 @@ router.get('/scrape', (req, res) => {
                 res.redirect('/');
             })
     });
-    
 });
 
 // GET '/save/:id' Saves article for later viewing
 router.put('/save/:articleID', (req, res) => {
-    Article.findByIdAndUpdate(req.params.articleID, { $set: {saved: true} }, { new: true })
+    Articles.findByIdAndUpdate(req.params.articleID, { $set: {saved: true} }, { new: true })
         .then( article => {
             res.send("Article updated");
         })
@@ -57,7 +62,7 @@ router.put('/save/:articleID', (req, res) => {
 
 // GET '/save' Show all saved articles
 router.get('/save', (req, res) => {
-    Article.find({ saved: true })
+    Articles.find({ saved: true })
         .then(dbArticles => {
             res.render('savedArticles', { articles: dbArticles, title: "These are your saved articles" });
         })
@@ -67,8 +72,37 @@ router.get('/save', (req, res) => {
         })
 });
 
-router.put('/save/comment/:commentID', (req, res) => {
-    
+// POST '/save/comments/:postCommentID' Create comments for a specific article
+router.post('/save/comments/:postCommentID', (req, res) => {
+    Comments.create(req.body)
+        .then(dbComment => Articles.findByIdAndUpdate(req.params.postCommentID, { comments: dbComment._id }, { new: true}))
+        .then( dbArticle => res.redirect('/save'))
+        .catch( err => console.error(err));
+});
+
+// GET '/save/comments/:getCommentID' Display comments for a specific article
+router.get('/save/comments/:getCommentID', (req, res) => {
+    Articles.findById(req.params.getCommentID)
+        .populate("comments")
+        .then(dbArticles => res.json(dbArticles))
+        .catch(err => console.error(err));
 })
+
+router.delete('/delete/article/:removeArticleID', (req, res) => {
+    Articles.findByIdAndRemove(req.params.removeArticleID)
+        .then(dbArticle => {
+            res.send("Article removed");
+        })
+        .catch(err => console.error(err));
+})
+
+router.delete('/delete/comment/:commentID', (req, res) => {
+    Comments.findByIdAndRemove(req.params.commentID)
+        .then(dbComment => {
+            res.send("Comment removed");
+        })
+        .catch(err => console.error(err));
+})
+
 
 module.exports = router;
