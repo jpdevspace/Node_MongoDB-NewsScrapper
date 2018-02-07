@@ -5,11 +5,11 @@ A full stack web scraper app to get the latest news from Wired magazine, save ar
 
 ![alt text][screenshot]
 
-[screenshot]: https://github.com/jpdevspace/Node_MongoDB-NewsScrapper/blob/master/public/assets/imgs/screenshot.png "Screenshot of homepage app"
+[screenshot]: https://github.com/jpdevspace/Node_MongoDB-NewsScrapper/blob/master/public/imgs/screenshot.png "Screenshot of homepage app"
 
 ![alt text][screenshot2]
 
-[screenshot2]: https://github.com/jpdevspace/Node_MongoDB-NewsScrapper/blob/master/public/assets/imgs/screenshot2.png "Screenshot of wprking app"
+[screenshot2]: https://github.com/jpdevspace/Node_MongoDB-NewsScrapper/blob/master/public/imgs/screenshot2.png "Screenshot of wprking app"
 
 
 
