@@ -31,23 +31,21 @@ router.get('/scrape', (req, res) => {
             });
         });
 
-
         Article.create(wiredResult)
             .then( dbArticle => {
-                res.render('scrape', {articles: dbArticle});
+                res.render('scrape', {articles: dbArticle, title: "Check the results"});
             })
             .catch( err => {
                 console.error(err);
                 res.redirect('/');
             })
-        
     });
     
 });
 
 // GET '/save/:id' Saves article for later viewing
-router.put('/save/:id', (req, res) => {
-    Article.findByIdAndUpdate(req.params.id, { $set: {saved: true} }, { new: true })
+router.put('/save/:articleID', (req, res) => {
+    Article.findByIdAndUpdate(req.params.articleID, { $set: {saved: true} }, { new: true })
         .then( article => {
             res.send("Article updated");
         })
@@ -61,12 +59,16 @@ router.put('/save/:id', (req, res) => {
 router.get('/save', (req, res) => {
     Article.find({ saved: true })
         .then(dbArticles => {
-            res.render('savedArticles', { articles: dbArticles });
+            res.render('savedArticles', { articles: dbArticles, title: "These are your saved articles" });
         })
         .catch( err => {
             console.error(err);
             res.redirect('/');
         })
 });
+
+router.put('/save/comment/:commentID', (req, res) => {
+    
+})
 
 module.exports = router;

@@ -41,5 +41,7 @@ nav .btn {
 .card-header button {
     width: 100%;
 }
-
+.modal-footer ul{
+    width: 100%;
+}
 

@@ -43,22 +43,21 @@
     <header>
         {{#if mainPage}}
             <div class="main-bg"></div>
-        {{else}}
-            <div class="main-bg scrape"></div>
-        {{/if}}
-        <div class="main-strip bg-secondary">
+            <div class="main-strip bg-secondary">
             <h2>Get the latest news from
-            <em>
-                <strong>The New York Times</strong>
-            </em>,
-            <em>
-                <strong>The Times</strong>
-            </em> and
-            <em>
-                <strong>Wired</strong>
-            </em>
+                <em><strong>The New York Times</strong></em>,
+                <em><strong>The Times</strong> </em> and
+                <em><strong>Wired</strong></em>
             </h2>
         </div>
+        {{else}}
+            <div class="main-bg scrape"></div>
+            <div class="main-strip bg-secondary">
+                <strong><h2>{{title}}</h2></strong>
+            </div>
+            
+        {{/if}}
+        
     </header>
 
         {{{body}}}
